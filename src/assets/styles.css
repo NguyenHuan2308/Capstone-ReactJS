@@ -1,0 +1,24 @@
+.hoverColor {
+    transition: all 0.25s ease-in-out;
+}
+
+.hoverColor:hover {
+    color: #ffc107 !important;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes carouselFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.carousel-animate {
+    animation: carouselFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity, transform; /* Tối ưu GPU khi render */
+}

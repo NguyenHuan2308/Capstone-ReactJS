@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Index from "./pages/Index.jsx";
 
