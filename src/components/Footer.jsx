@@ -30,7 +30,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-secondary py-2 text-center"><p className="mt-2 text-dark fw-medium fs-5">© 2022 Cybersoft All Rights Reserved | Design Theme by Trương Tấn Khải.</p></div>
+            <div className="py-2 text-center" style={{backgroundColor:'#D9D9D9'}}><p className="mt-2 text-dark fw-medium fs-5">© 2022 Cybersoft All Rights Reserved | Design Theme by Trương Tấn Khải.</p></div>
         </>
     );
 };

@@ -22,3 +22,15 @@
     animation: carouselFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     will-change: opacity, transform; /* Tối ưu GPU khi render */
 }
+
+.btn-add-to-cart {
+    background: linear-gradient(to right, #d017ee, #3e20f8e5);
+    border-radius: none;
+    border: none;
+}
+
+@media (max-width: 768px){
+  .content-detail {
+    text-align: center;
+  }
+}

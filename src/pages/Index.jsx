@@ -1,30 +1,35 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import axios from "axios";
 import "../assets/styles.css";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllProducts } from "../redux/slices/productSlice";
 
 const Index = () => {
-    const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
+    const { productList } = useSelector((state) => state.product);
     const [currentPage, setCurrentPage] = useState(1);
     const [indexCurrentProduct, setIndexCurrentProduct] = useState(0);
-    const currentProduct = products[indexCurrentProduct];
+    const currentProduct = productList[indexCurrentProduct];
+
+    const navigate = useNavigate();
 
     const handlePrev = () => {
-        setIndexCurrentProduct((prev) => (prev === 0 ? products.length - 1 : prev - 1));
+        setIndexCurrentProduct((prev) => (prev === 0 ? productList.length - 1 : prev - 1));
     };
 
     const handleNext = () => {
-        setIndexCurrentProduct((prev) => (prev === products.length - 1 ? 0 : prev + 1));
+        setIndexCurrentProduct((prev) => (prev === productList.length - 1 ? 0 : prev + 1));
     };
 
     const itemsPerPage = 6;
 
     const indexOfLastProduct = currentPage * itemsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = productList.slice(indexOfFirstProduct, indexOfLastProduct);
 
-    const totalPages = Math.ceil(products.length / itemsPerPage);
+    const totalPages = Math.ceil(productList.length / itemsPerPage);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -32,16 +37,10 @@ const Index = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const dataProducts = await axios.get("https://apistore.cybersoft.edu.vn/api/Product");
-                setProducts(dataProducts.data.content);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
+        if (productList.length === 0) {
+            dispatch(fetchAllProducts());
+        }
+    }, [dispatch, productList.length]);
 
     return (
         <div>
@@ -84,15 +83,23 @@ const Index = () => {
                 <div className="row g-3 g-md-5">
                     {currentProducts.map((item) => {
                         return (
-                            <div className="col-12 col-md-4">
-                                <div className="card">
+                            <div key={item.id} className="col-12 col-md-4" style={{ cursor: "pointer" }} onClick={() => navigate(`/detail/${item.id}`)}>
+                                <div className="card bg-light">
                                     <img src={item.image} className="card-img-top w-100" alt={item.name} />
                                     <div className="card-body">
                                         <h5 className="card-title">{item.name}</h5>
                                         <p className="card-text">{item.shortDescription}</p>
-                                        <a href="#" className="btn btn-primary">
-                                            Go somewhere
-                                        </a>
+                                        <div className="d-flex justify-content-center align-items-center bg-secondary">
+                                            <button
+                                                className="px-4 py-2 w-50 fs-5"
+                                                style={{ backgroundColor: "#9DE167", borderRadius: "none", border: "none" }}
+                                            >
+                                                Buy now
+                                            </button>
+                                            <p className="w-50 text-center my-auto fs-5 text-white" style={{ color: "#087f5b" }}>
+                                                {item.price}$
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -104,21 +111,29 @@ const Index = () => {
                         <ul className="pagination">
                             {/* Nút Prev */}
                             <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                                <button
+                                    className="page-link text-dark"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
                                     &laquo; Prev
                                 </button>
                             </li>
 
                             {/* Tạo danh sách các nút số trang */}
                             <li className="page-item active">
-                                <span className="page-link">
+                                <span className="page-link bg-light text-dark">
                                     {currentPage} / {totalPages}
                                 </span>
                             </li>
 
                             {/* Nút Next */}
                             <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                                <button
+                                    className="page-link text-dark"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
                                     Next &raquo;
                                 </button>
                             </li>
@@ -126,7 +141,6 @@ const Index = () => {
                     </nav>
                 )}
             </section>
-            {/* <hr /> */}
             <Footer />
         </div>
     );
