@@ -12,6 +12,8 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const errorCart = localStorage.getItem("errorCart");
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -63,11 +65,7 @@ const Login = () => {
                 email: formData.email.trim(),
                 password: formData.password,
             });
-
-            // Lưu thông tin user (email, accessToken) lên Redux Store và localStorage
             dispatch(loginSuccess(res.data.content));
-
-            // Điều hướng về trang chủ (hoặc trang /cart nếu trước đó bị chặn)
             navigate("/");
         } catch (err) {
             const msg = err.response?.data?.message || "Email hoặc mật khẩu không chính xác!";
@@ -79,6 +77,12 @@ const Login = () => {
         <div>
             <Header />
             <div className="container min-vh-100">
+                {errorCart && (
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Yêu cầu đăng nhập:</strong> Bạn cần đăng nhập mới vào được giỏ hàng.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                )}
                 <h1 className="my-5">Login</h1>
                 <div className="mb-5" style={{ borderBottom: "2px solid #ccc" }}></div>
                 <div className="d-flex justify-content-center">
