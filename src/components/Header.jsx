@@ -31,8 +31,8 @@ const Header = () => {
                                 <FontAwesomeIcon icon={faCartShopping} className="me-1" />
                                 <span>{cartItems?.length == 0 ? "" : `(${cartItems?.length})`}</span>
                             </button>
-                            <button className="btn text-white mx-lg-4 my-1 my-lg-0 hoverColor">Login</button>
-                            <button className="btn text-white my-1 my-lg-0 hoverColor">Register</button>
+                            <button className="btn text-white mx-lg-4 my-1 my-lg-0 hoverColor" onClick={() => navigate('/login')}>Login</button>
+                            <button className="btn text-white my-1 my-lg-0 hoverColor" onClick={() => navigate('/register')}>Register</button>
                         </div>
                     </div>
                 </div>

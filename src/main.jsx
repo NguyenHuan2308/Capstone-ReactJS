@@ -8,6 +8,7 @@ import { store } from "./redux/store.jsx";
 import Index from "./pages/index.jsx";
 import Cart from "./pages/Cart.jsx";
 import Register from "./pages/Register.jsx";
+import Login from "./pages/Login.jsx";
 
 createRoot(document.getElementById("root")).render(
     <Provider store={store}>
@@ -17,6 +18,8 @@ createRoot(document.getElementById("root")).render(
                 <Route path="/detail/:id" element={<Detail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+
             </Routes>
         </BrowserRouter>
     </Provider>,
